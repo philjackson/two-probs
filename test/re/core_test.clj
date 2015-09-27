@@ -45,5 +45,8 @@
   (testing "char class"
     (is (= "[abc\\wa]" (chrs ["a" "b" "c" :w \a]))))
 
+  (testing "beg/end"
+    (is (= "^startend$" (re [:beg "startend" :end]))))
+
   (testing "any"
     (is (= "." (re [:.])))))
