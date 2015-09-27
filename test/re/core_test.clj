@@ -17,6 +17,10 @@
     (are [s r] (= s (re [r]))
       "(\\w\\s)" (group [:word :space])))
 
+  (testing "char handling"
+    (are [s r] (= s (re [r]))
+      "sd" (re [\s \d])))
+
   (testing "or-ing"
     (is (= "(?:one|two)" (re-or ["one" "two"]))))
 
