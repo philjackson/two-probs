@@ -31,4 +31,9 @@
     (is (= "(?:\\w\\s)+"  (one-or-more [:word :space]))))
 
   (testing "escaping"
-    (is (= "\\Qhello*world\\E" (literal "hello*world")))))
+    (is (= "\\Qhello*world\\E" (literal "hello*world"))))
+
+  (testing "aliases"
+    (are [a1 a2] (= (re [a1]) (re [a2]))
+      :d :digit
+      :s :space)))

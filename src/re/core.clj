@@ -38,18 +38,22 @@
   [expression]
   (java.util.regex.Pattern/quote expression))
 
+(def ch-aliases (into {} (for [[expanded aliases] {"\\d" [:d :digit]
+                                                   "\\D" [:D :non-digit]
+                                                   "\\s" [:s :space]
+                                                   "\\S" [:S :non-space]
+                                                   "\\w" [:w :word]
+                                                   "\\W" [:W :non-word]}
+                               a aliases]
+                           [a expanded])))
+
 (defn re [expressions]
   (loop [expressions expressions
          current ""]
     (let [command (first expressions)
           gen (str current (cond
                              (string? command) command
-                             (= command :digit) "\\d"
-                             (= command :non-digit) "\\D"
-                             (= command :word) "\\w"
-                             (= command :non-word) "\\W"
-                             (= command :space) "\\s"
-                             (= command :non-space) "\\S"))]
+                             (contains? ch-aliases command) (get ch-aliases command)))]
       (if (> (count (rest expressions)) 0)
         (recur (rest expressions) gen)
         gen))))
