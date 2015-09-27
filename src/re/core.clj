@@ -38,6 +38,9 @@
   [expression]
   (java.util.regex.Pattern/quote expression))
 
+(defn chrs [cs]
+  (str "[" (re cs) "]"))
+
 (def ch-aliases (into {} (for [[expanded aliases] {"\\d" [:d :digit]
                                                    "\\D" [:D :non-digit]
                                                    "\\s" [:s :space]
@@ -52,6 +55,7 @@
          current ""]
     (let [command (first expressions)
           gen (str current (cond
+                             (char? command) command
                              (string? command) command
                              (contains? ch-aliases command) (get ch-aliases command)))]
       (if (> (count (rest expressions)) 0)

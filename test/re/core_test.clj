@@ -36,4 +36,7 @@
   (testing "aliases"
     (are [a1 a2] (= (re [a1]) (re [a2]))
       :d :digit
-      :s :space)))
+      :s :space))
+
+  (testing "char class"
+    (is (= "[abc\\wa]" (chrs ["a" "b" "c" :w \a])))))
