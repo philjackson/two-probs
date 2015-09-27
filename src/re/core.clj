@@ -49,7 +49,16 @@
                                                    "\\S" [:S :non-space]
                                                    "\\w" [:w :word]
                                                    "\\W" [:W :non-word]
-                                                   "."   [:. :any]}
+                                                   "."   [:. :any]
+
+                                                   "^" [:start :beg :beginning]
+                                                   "$" [:$ :end]
+                                                   "\\b" [:b :boundary :bndry]
+                                                   "\\B" [:B :non-boundary :non-bndry]
+                                                   "\\A" [:A :beginning-input :beg-input :beg-in]
+                                                   "\\z" [:z :end-input :end-in]
+                                                   "\\G" [:G :end-match]
+                                                   "\\Z" [:Z :end-term]}
                                a aliases]
                            [a expanded])))
 
