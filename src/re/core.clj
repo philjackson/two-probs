@@ -22,13 +22,15 @@
          (re expressions))
        "+"))
 
+(defn re-or [expr]
+  (group [(str/join "|" (map #(re [%]) expr))] false))
+
 (defn re [expressions]
   (loop [expressions expressions
          current ""]
     (let [command (first expressions)
           gen (str current (cond
                              (string? command) command
-                             (vector? command) (group [(str/join "|" (map #(re [%]) command))] false)
                              (= command :digit) "\\d"
                              (= command :non-digit) "\\D"
                              (= command :word) "\\w"

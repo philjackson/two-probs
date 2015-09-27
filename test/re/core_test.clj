@@ -18,7 +18,7 @@
       "(\\w\\s)" (group [:word :space])))
 
   (testing "or-ing"
-    (is (= "(?:one|two)" (re [["one" "two"]]))))
+    (is (= "(?:one|two)" (re-or ["one" "two"]))))
 
   (testing "groupings"
     (is (= "(\\w\\s)"    (group [:word :space])))
