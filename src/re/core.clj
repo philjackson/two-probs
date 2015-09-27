@@ -16,14 +16,30 @@
          (re expressions))
        "?"))
 
-(defn one-or-more [expressions]
+(defn- or-more [ch expressions non-greedy?]
   (str (if (> (count expressions) 1)
          (group expressions false)
          (re expressions))
-       "+"))
+       (str ch (when non-greedy?
+                  "?"))))
 
-(defn re-or [expr]
-  (group [(str/join "|" (map #(re [%]) expr))] false))
+(defn one-or-more
+  ([expressions] (one-or-more expressions false))
+  ([expressions non-greedy?] (or-more \+ expressions non-greedy?)))
+
+(defn zero-or-more
+  ([expressions] (zero-or-more expressions false))
+  ([expressions non-greedy?] (or-more \* expressions non-greedy?)))
+
+(defn re-or
+  ([expressions] (re-or expressions false))
+  ([expressions capturing?] (group [(str/join "|" (map #(re [%]) expressions))] capturing?)))
+
+(defn literal
+  "Returns a quoted version of expression that can be used as a
+  literal in a regexp."
+  [expression]
+  (java.util.regex.Pattern/quote expression))
 
 (defn re [expressions]
   (loop [expressions expressions

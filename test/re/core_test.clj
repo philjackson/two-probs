@@ -21,8 +21,14 @@
     (is (= "(?:one|two)" (re-or ["one" "two"]))))
 
   (testing "groupings"
-    (is (= "(\\w\\s)"    (group [:word :space])))
-    (is (= "\\w+"        (one-or-more [:word])))
-    (is (= "\\w?"        (zero-or-one [:word])))
-    (is (= "(?:\\w\\s)?" (zero-or-one [:word :space])))
-    (is (= "(?:\\w\\s)+" (one-or-more [:word :space])))))
+    (is (= "(\\w\\s)"     (group [:word :space])))
+    (is (= "\\w+"         (one-or-more [:word])))
+    (is (= "\\w+?"        (one-or-more [:word] true)))
+    (is (= "\\w?"         (zero-or-one [:word])))
+    (is (= "(?:\\w\\s)?"  (zero-or-one [:word :space])))
+    (is (= "(?:\\w\\s)*"  (zero-or-more [:word :space])))
+    (is (= "(?:\\w\\s)*?" (zero-or-more [:word :space] true)))
+    (is (= "(?:\\w\\s)+"  (one-or-more [:word :space]))))
+
+  (testing "escaping"
+    (is (= "\\Qhello*world\\E" (literal "hello*world")))))
