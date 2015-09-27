@@ -10,11 +10,11 @@
                                  (re expressions)
                                  ")")))
 
-(defn- or-more [ch expressions non-greedy?]
+(defn- or-more [ch expressions reluctantly?]
   (str (if (> (count expressions) 1)
          (group expressions false)
          (re expressions))
-       (str ch (when non-greedy?
+       (str ch (when reluctantly?
                   "?"))))
 
 (defn zero-or-one [expressions]
@@ -22,11 +22,11 @@
 
 (defn one-or-more
   ([expressions] (one-or-more expressions false))
-  ([expressions non-greedy?] (or-more \+ expressions non-greedy?)))
+  ([expressions reluctantly?] (or-more \+ expressions reluctantly?)))
 
 (defn zero-or-more
   ([expressions] (zero-or-more expressions false))
-  ([expressions non-greedy?] (or-more \* expressions non-greedy?)))
+  ([expressions reluctantly?] (or-more \* expressions reluctantly?)))
 
 (defn re-or
   ([expressions] (re-or expressions false))
