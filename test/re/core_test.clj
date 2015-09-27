@@ -43,4 +43,7 @@
       :s :space))
 
   (testing "char class"
-    (is (= "[abc\\wa]" (chrs ["a" "b" "c" :w \a])))))
+    (is (= "[abc\\wa]" (chrs ["a" "b" "c" :w \a]))))
+
+  (testing "any"
+    (is (= "." (re [:.])))))

@@ -41,12 +41,15 @@
 (defn chrs [cs]
   (str "[" (re cs) "]"))
 
+;; we transform this into a hash that looks like this:
+;; {:d "\\d" :digit "\\d" ... }
 (def ch-aliases (into {} (for [[expanded aliases] {"\\d" [:d :digit]
                                                    "\\D" [:D :non-digit]
                                                    "\\s" [:s :space]
                                                    "\\S" [:S :non-space]
                                                    "\\w" [:w :word]
-                                                   "\\W" [:W :non-word]}
+                                                   "\\W" [:W :non-word]
+                                                   "."   [:. :any]}
                                a aliases]
                            [a expanded])))
 
