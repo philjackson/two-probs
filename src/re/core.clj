@@ -3,6 +3,9 @@
 
 (declare re)
 
+(defn- vectorise-maybe [expressions]
+  (if (coll? expressions) expressions [expressions]))
+
 (defn group
   ([expressions] (group expressions true))
   ([expressions capturing?] (str "("
@@ -11,11 +14,12 @@
                                  ")")))
 
 (defn- or-more [ch expressions reluctantly?]
-  (str (if (> (count expressions) 1)
-         (group expressions false)
-         (re expressions))
-       (str ch (when reluctantly?
-                  "?"))))
+  (let [expressions (vectorise-maybe expressions)]
+    (str (if (> (count expressions) 1)
+           (group expressions false)
+           (re expressions))
+         (str ch (when reluctantly?
+                   "?")))))
 
 (defn zero-or-one [expressions]
   (or-more \? expressions false))
@@ -81,7 +85,7 @@
   "Loop over `expressions' and gradually build a string suitable for a
   regular expression."
   [expressions]
-  (loop [expressions expressions
+  (loop [expressions (vectorise-maybe expressions)
          current ""]
     (let [command (first expressions)
           gen (str current (cond

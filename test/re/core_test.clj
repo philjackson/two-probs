@@ -59,12 +59,13 @@
     (is (= "s{3,10}") (times [\s] 3 10))))
 
 (deftest re-on-regexp-test
-  (let [email (re-pattern
-               (re [:beg
-                    (one-or-more [:word] true)
-                    \@
-                    (group [(one-or-more [:word] true)])
-                    \.
-                    (one-or-more [:word] true)
-                    :end]))]
-    (is (= "example" (second (re-matches email "bob@example.com"))))))
+  (testing "simple email regexp"
+    (let [email (re-pattern
+                 (re [:beg
+                      (one-or-more :word true)
+                      \@
+                      (group (one-or-more [:word] true))
+                      \.
+                      (one-or-more :word)
+                      :end]))]
+      (is (= "example" (second (re-matches email "bob@example.com")))))))
