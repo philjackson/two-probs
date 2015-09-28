@@ -27,6 +27,7 @@
     (is (= "(?:one|two)" (re-or ["one" "two"]))))
 
   (testing "groupings"
+    (is (= "(\\w+)"       (group [(one-or-more [:word])])))
     (is (= "(\\w\\s)"     (group [:word :space])))
     (is (= "\\w+"         (one-or-more [:word])))
     (is (= "\\w+?"        (one-or-more [:word] true)))
@@ -53,11 +54,13 @@
   (testing "any"
     (is (= "." (re [:.])))))
 
-#_(deftest re-on-regexp-test
-    (let [email (re [:beg
-                     (one-or-more [:word] true)
-                     \@
-                     (one-or-more [:word] true)
-                     (literal ".")
-                     (one-or-more [:word] true)
-                     :end])]))
+(deftest re-on-regexp-test
+  (let [email (re-pattern
+               (re [:beg
+                    (one-or-more [:word] true)
+                    \@
+                    (group [(one-or-more [:word] true)])
+                    \.
+                    (one-or-more [:word] true)
+                    :end]))]
+    (is (= "example" (second (re-matches email "bob@example.com"))))))

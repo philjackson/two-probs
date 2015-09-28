@@ -77,8 +77,8 @@
          current ""]
     (let [command (first expressions)
           gen (str current (cond
-                             (char? command) (perhaps-escape command)
                              (string? command) command
+                             (char? command) (perhaps-escape command)
                              (contains? ch-aliases command) (get ch-aliases command)))]
       (if (> (count (rest expressions)) 0)
         (recur (rest expressions) gen)
