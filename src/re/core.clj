@@ -45,27 +45,29 @@
 (defn chrs [cs]
   (str "[" (re cs) "]"))
 
+(def simple-aliases {"^" [:start :beg :beginning]
+                     "$" [:$ :end]
+
+                     "\\d" [:d :digit]
+                     "\\D" [:D :non-digit]
+                     "\\s" [:s :space]
+                     "\\S" [:S :non-space]
+                     "\\w" [:w :word]
+                     "\\W" [:W :non-word]
+                     "."   [:. :any]
+
+                     "\\b" [:b :boundary :bndry]
+                     "\\B" [:B :non-boundary :non-bndry]
+                     "\\A" [:A :beginning-input :beg-input :beg-in]
+                     "\\z" [:z :end-input :end-in]
+                     "\\G" [:G :end-match]
+                     "\\Z" [:Z :end-term]})
+
 ;; we transform this into a hash that looks like this:
 ;; {:d "\\d" :digit "\\d" ... }
-(def ch-aliases (into {} (for [[expanded aliases] {"^" [:start :beg :beginning]
-                                                   "$" [:$ :end]
-
-                                                   "\\d" [:d :digit]
-                                                   "\\D" [:D :non-digit]
-                                                   "\\s" [:s :space]
-                                                   "\\S" [:S :non-space]
-                                                   "\\w" [:w :word]
-                                                   "\\W" [:W :non-word]
-                                                   "."   [:. :any]
-
-                                                   "\\b" [:b :boundary :bndry]
-                                                   "\\B" [:B :non-boundary :non-bndry]
-                                                   "\\A" [:A :beginning-input :beg-input :beg-in]
-                                                   "\\z" [:z :end-input :end-in]
-                                                   "\\G" [:G :end-match]
-                                                   "\\Z" [:Z :end-term]}
-                               a aliases]
-                           [a expanded])))
+(def denormalised-aliases (into {} (for [[expanded aliases] simple-aliases
+                                         a aliases]
+                                     [a expanded])))
 
 (def need-escaping #{\[\]\*\+\.\^\$\\\{\}})
 
@@ -91,7 +93,7 @@
           gen (str current (cond
                              (string? command) command
                              (char? command) (perhaps-escape command)
-                             (contains? ch-aliases command) (get ch-aliases command)))]
+                             (contains? denormalised-aliases command) (get denormalised-aliases command)))]
       (if (> (count (rest expressions)) 0)
         (recur (rest expressions) gen)
         gen))))
