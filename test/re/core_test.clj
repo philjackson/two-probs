@@ -59,6 +59,15 @@
     (is (= "s{3,10}") (times [\s] 3 10))))
 
 (deftest re-on-regexp-test
+  (testing "markdown style heading"
+    (let [heading (re-pattern
+                   (re [:beg
+                        (group (times \# 1 6))
+                        (one-or-more :space)
+                        (group (zero-or-more [:any]))
+                        :end]))]
+      (is (= "hello world" (nth (re-matches heading "### hello world") 2)))))
+
   (testing "simple email regexp"
     (let [email (re-pattern
                  (re [:beg
