@@ -3,6 +3,8 @@
 
 (declare re)
 
+(defrecord RegexpShard [st capture])
+
 (defn- vectorise-maybe [expressions]
   (if (coll? expressions) expressions [expressions]))
 
@@ -88,12 +90,14 @@
   regular expression."
   [expressions]
   (loop [expressions (vectorise-maybe expressions)
-         current ""]
+         current []]
     (let [command (first expressions)
-          gen (str current (cond
-                             (string? command) command
-                             (char? command) (perhaps-escape command)
-                             (contains? denormalised-aliases command) (get denormalised-aliases command)))]
+          gen (conj current (RegexpShard.
+                             (cond
+                               (string? command) command
+                               (char? command) (perhaps-escape command)
+                               (contains? denormalised-aliases command) (get denormalised-aliases command))
+                             nil))]
       (if (> (count (rest expressions)) 0)
         (recur (rest expressions) gen)
         gen))))
