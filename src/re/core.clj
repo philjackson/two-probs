@@ -69,6 +69,13 @@
     (str "\\" ch)
     ch))
 
+(defn times
+  ([expressions mn] (times expressions mn nil))
+  ([expressions mn mx] (str (re expressions)
+                            (if mx
+                              (str "{" mn "," mx "}")
+                              (str "{" mn ",}")))))
+
 (defn re
   "Loop over `expressions' and gradually build a string suitable for a
   regular expression."
