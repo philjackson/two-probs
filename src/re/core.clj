@@ -43,7 +43,10 @@
 
 ;; we transform this into a hash that looks like this:
 ;; {:d "\\d" :digit "\\d" ... }
-(def ch-aliases (into {} (for [[expanded aliases] {"\\d" [:d :digit]
+(def ch-aliases (into {} (for [[expanded aliases] {"^" [:start :beg :beginning]
+                                                   "$" [:$ :end]
+
+                                                   "\\d" [:d :digit]
                                                    "\\D" [:D :non-digit]
                                                    "\\s" [:s :space]
                                                    "\\S" [:S :non-space]
@@ -51,8 +54,6 @@
                                                    "\\W" [:W :non-word]
                                                    "."   [:. :any]
 
-                                                   "^" [:start :beg :beginning]
-                                                   "$" [:$ :end]
                                                    "\\b" [:b :boundary :bndry]
                                                    "\\B" [:B :non-boundary :non-bndry]
                                                    "\\A" [:A :beginning-input :beg-input :beg-in]
