@@ -92,11 +92,11 @@
   [expressions]
   (loop [expressions (vectorise-maybe expressions)
          current ""]
-    (let [command (first expressions)
+    (let [exp (first expressions)
           gen (str current (cond
-                             (string? command) command
-                             (char? command) (perhaps-escape command)
-                             (contains? denormalised-aliases command) (get denormalised-aliases command)))]
+                             (string? exp) exp
+                             (char? exp) (perhaps-escape exp)
+                             (contains? denormalised-aliases exp) (get denormalised-aliases exp)))]
       (if (> (count (rest expressions)) 0)
         (recur (rest expressions) gen)
         gen))))
