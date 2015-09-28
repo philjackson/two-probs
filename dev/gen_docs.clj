@@ -1,4 +1,4 @@
-(ns re.gen-docs
+(ns gen-docs
   (:require [clojure.string :as str]
             [re.core :refer [simple-aliases]]))
 
