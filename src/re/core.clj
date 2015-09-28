@@ -13,10 +13,13 @@
                                  (re expressions)
                                  ")")))
 
+(defn cap [expressions] (group expressions true))
+(defn non-cap [expressions] (group expressions false))
+
 (defn- or-more [ch expressions reluctantly?]
   (let [expressions (vectorise-maybe expressions)]
     (str (if (> (count expressions) 1)
-           (group expressions false)
+           (non-cap expressions)
            (re expressions))
          (str ch (when reluctantly?
                    "?")))))
