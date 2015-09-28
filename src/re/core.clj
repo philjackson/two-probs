@@ -62,12 +62,22 @@
                                a aliases]
                            [a expanded])))
 
-(defn re [expressions]
+(def need-escaping #{\[\]\*\+\.\^\$\\\{\}})
+
+(defn perhaps-escape [ch]
+  (if (some need-escaping [ch])
+    (str "\\" ch)
+    ch))
+
+(defn re
+  "Loop over `expressions' and gradually build a string suitable for a
+  regular expression."
+  [expressions]
   (loop [expressions expressions
          current ""]
     (let [command (first expressions)
           gen (str current (cond
-                             (char? command) command
+                             (char? command) (perhaps-escape command)
                              (string? command) command
                              (contains? ch-aliases command) (get ch-aliases command)))]
       (if (> (count (rest expressions)) 0)

@@ -19,7 +19,9 @@
 
   (testing "char handling"
     (are [s r] (= s (re [r]))
-      "sd" (re [\s \d])))
+      "sd"     (re [\s \d])
+      "\\."    (re [\.])
+      "\\{\\}" (re [\{ \}])))
 
   (testing "or-ing"
     (is (= "(?:one|two)" (re-or ["one" "two"]))))
@@ -50,3 +52,12 @@
 
   (testing "any"
     (is (= "." (re [:.])))))
+
+#_(deftest re-on-regexp-test
+    (let [email (re [:beg
+                     (one-or-more [:word] true)
+                     \@
+                     (one-or-more [:word] true)
+                     (literal ".")
+                     (one-or-more [:word] true)
+                     :end])]))
