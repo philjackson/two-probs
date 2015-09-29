@@ -1,6 +1,6 @@
-(ns re.core-test
+(ns two-probs.core-test
   (:require [clojure.test :refer :all]
-            [re.core :refer :all]))
+            [two-probs.core :refer :all]))
 
 (deftest re-test
   (testing "basics"

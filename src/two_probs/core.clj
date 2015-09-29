@@ -1,4 +1,4 @@
-(ns re.core
+(ns two-probs.core
   (:require [clojure.string :as str]))
 
 (declare re)
