@@ -58,7 +58,9 @@
   [expression]
   (java.util.regex.Pattern/quote expression))
 
-(defn chrs [cs]
+(defn chrs
+  "Builds a character class out of `cs`."
+  [cs]
   (str "[" (re cs) "]"))
 
 (def simple-aliases {"^" [:start :beg :beginning]
