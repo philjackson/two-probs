@@ -6,6 +6,24 @@ maintainable.
 
 It's very simple - don't expect magic.
 
+## Install
+
+### Leiningen
+
+    [two-probs "0.1.0"]
+
+### Gradle
+
+    compile "two-probs:two-probs:0.1.0"
+
+### Maven
+
+    <dependency>
+      <groupId>two-probs</groupId>
+      <artifactId>two-probs</artifactId>
+      <version>0.1.0</version>
+    </dependency>
+
 ## Usage
 
     (ns two-probs-examples
