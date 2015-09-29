@@ -10,16 +10,16 @@ It's very simple - don't expect magic.
 
 ### Leiningen
 
-    [two-probs "0.1.0"]
+    [philjackson/two-probs "0.1.0"]
 
 ### Gradle
 
-    compile "two-probs:two-probs:0.1.0"
+    compile "philjackson:two-probs:0.1.0"
 
 ### Maven
 
     <dependency>
-      <groupId>two-probs</groupId>
+      <groupId>philjackson</groupId>
       <artifactId>two-probs</artifactId>
       <version>0.1.0</version>
     </dependency>
