@@ -7,14 +7,23 @@
   (if (coll? expressions) expressions [expressions]))
 
 (defn group
+  "Group `expressions`, truthy final arity determines capturing
+  status."
   ([expressions] (group expressions true))
   ([expressions capturing?] (str "("
                                  (when-not capturing? "?:")
                                  (re expressions)
                                  ")")))
 
-(defn cap [expressions] (group expressions true))
-(defn non-cap [expressions] (group expressions false))
+(defn cap
+  "Capturing group."
+  [expressions]
+  (group expressions true))
+
+(defn non-cap
+  "Non-capturing group."
+  [expressions]
+  (group expressions false))
 
 (defn- or-more [ch expressions reluctantly?]
   (let [expressions (vectorise-maybe expressions)]
@@ -25,17 +34,21 @@
                    "?")))))
 
 (defn zero-or-one [expressions]
+  "Match zero or one instances of `expressions`."
   (or-more \? expressions false))
 
 (defn one-or-more
+  "Match one or more instances of `expressions`."
   ([expressions] (one-or-more expressions false))
   ([expressions reluctantly?] (or-more \+ expressions reluctantly?)))
 
 (defn zero-or-more
+  "Match zero or more instances of `expressions`."
   ([expressions] (zero-or-more expressions false))
   ([expressions reluctantly?] (or-more \* expressions reluctantly?)))
 
 (defn re-or
+  "Returns `expressions` logically or'd together."
   ([expressions] (re-or expressions false))
   ([expressions capturing?] (group [(str/join "|" (map #(re [%]) expressions))] capturing?)))
 
@@ -74,12 +87,16 @@
 
 (def need-escaping #{\[\]\*\+\.\^\$\\\{\}})
 
-(defn perhaps-escape [ch]
+(defn perhaps-escape
+  "Escape a `ch' if it's a special re char."
+  [ch]
   (if (some need-escaping [ch])
     (str "\\" ch)
     ch))
 
 (defn times
+  "Match `expression` a minimum of `mn` times and a maximum of `mx`
+  times."
   ([expressions mn] (times expressions mn nil))
   ([expressions mn mx] (str (re expressions)
                             (if mx
@@ -87,7 +104,7 @@
                               (str "{" mn ",}")))))
 
 (defn re
-  "Loop over `expressions' and gradually build a string suitable for a
+  "Loop over `expressions` and gradually build a string suitable for a
   regular expression."
   [expressions]
   (loop [expressions (vectorise-maybe expressions)
