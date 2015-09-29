@@ -1,10 +1,42 @@
-# re
+# Now you've got Two Problems
 
-Simple clojure regexp library.
+If you're unlucky enough to have to process large regexps, this
+library should help you make them more readable, composable and
+maintainable.
+
+It's very simple - don't expect magic.
 
 ## Usage
 
+    (ns two-probs-examples
+      (:require [two-probs.core :refer :all]))
+
+    ;; simple email matching pattern
+    (let [email (re-pattern
+                 (re [:beg
+                      (one-or-more :word true)
+                      \@
+                      (cap (one-or-more [:word]))
+                      \.
+                      (one-or-more :word)
+                      :end]))]
+      (second (re-matches email "bob@example.com"))) => "example"
+
+### Functions
+
+* `group` - Group `expressions`, truthy final arity determines capturing status.
+* `cap` - Capturing group.
+* `non-cap` - Non-capturing group.
+* `zero-or-more` - Match zero or more instances of `expressions`.
+* `zero-or-one` - 
+* `one-or-more` - Match one or more instances of `expressions`.
+* `re-or` - Returns `expressions` logically or'd together.
+* `literal` - Returns a quoted version of expression that can be used as a literal in a regexp.
+* `times` - Match `expression` a minimum of `mn` times and a maximum of `mx` times.
+
 ### Simple chars
+
+What's produced by Two Problems and the aliases you can use:
 
 * `\W` (`:W`, `:non-word`)
 * `\A` (`:A`, `:beginning-input`, `:beg-input`, `:beg-in`)
