@@ -64,7 +64,7 @@
                    (re [:beg
                         (group (times \# 1 6))
                         (one-or-more :space)
-                        (group (zero-or-more [:any]))
+                        (cap (zero-or-more [:any]))
                         :end]))]
       (is (= "hello world" (nth (re-matches heading "### hello world") 2)))))
 
@@ -73,7 +73,7 @@
                  (re [:beg
                       (one-or-more :word true)
                       \@
-                      (group (one-or-more [:word] true))
+                      (cap (one-or-more [:word]))
                       \.
                       (one-or-more :word)
                       :end]))]
