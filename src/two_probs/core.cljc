@@ -56,7 +56,10 @@
   "Returns a quoted version of expression that can be used as a
   literal in a regexp."
   [expression]
-  (java.util.regex.Pattern/quote expression))
+  #?(:clj  (java.util.regex.Pattern/quote expression)
+     :cljs (let [special (set ".?*+^$[]\\(){}|")
+                 escfn #(if (special %) (str \\ %) %)]
+             (apply str (map escfn expression)))))
 
 (defn chrs
   "Builds a character class out of `cs`."
