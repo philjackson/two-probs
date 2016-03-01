@@ -55,8 +55,8 @@
     (is (= "." (re [:.]))))
 
   (testing "times"
-    (is (= "s{3,}") (times [\s] 3))
-    (is (= "s{3,10}") (times [\s] 3 10))))
+    (is (= "s{3,}" (times [\s] 3)))
+    (is (= "s{3,10}" (times [\s] 3 10)))))
 
 (deftest re-on-regexp-test
   (testing "markdown style heading"
