@@ -20,6 +20,9 @@
   [expressions]
   (group expressions true))
 
+;; turns out core has a `cap`
+(def capture cap)
+
 (defn non-cap
   "Non-capturing group."
   [expressions]
